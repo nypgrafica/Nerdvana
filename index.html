@@ -11,7 +11,7 @@ canvas{image-rendering:pixelated;touch-action:none;display:block;-webkit-user-se
 /* ===== CONFIGURACIÓN DE FIREBASE (ranking global y login con Google) =====
    Pegá acá el objeto firebaseConfig que te da Firebase. Mientras valga null,
    el juego funciona igual pero guarda los puntajes solo en cada dispositivo. */
-window.FIREBASE_CONFIG=null;
+window.FIREBASE_CONFIG={apiKey:"AIzaSyBCWq_L3cOfDmfE5jXfEkW48hpRnLjpHes",authDomain:"nerdvana-juego-arcade.firebaseapp.com",projectId:"nerdvana-juego-arcade",storageBucket:"nerdvana-juego-arcade.firebasestorage.app",messagingSenderId:"276161140713",appId:"1:276161140713:web:53319aa8c0f54f629c5d78",measurementId:"G-HGXHPC996G"};
 /* Ejemplo:
 window.FIREBASE_CONFIG={apiKey:"...",authDomain:"...",projectId:"...",storageBucket:"...",messagingSenderId:"...",appId:"..."};
 */
@@ -154,6 +154,7 @@ login:()=>Au.signInWithPopup(auth,new Au.GoogleAuthProvider()),
 logout:()=>Au.signOut(auth),
 top:async()=>(await F.getDocs(F.query(F.collection(db,'scores'),F.orderBy('s','desc'),F.limit(10)))).docs.map(d=>d.data()),
 submit:r=>F.addDoc(F.collection(db,'scores'),{...r,uid:auth.currentUser?auth.currentUser.uid:null,t:F.serverTimestamp()})};
+try{const An=await import(B+'firebase-analytics.js');if(await An.isSupported())An.getAnalytics(app)}catch(e){console.error(e)}
 Au.onAuthStateChanged(auth,u=>{FB.user=u?{name:u.displayName||'',uid:u.uid}:null;if(window.onFB)window.onFB()});
 if(window.onFB)window.onFB();
 }catch(e){console.error(e)}}
